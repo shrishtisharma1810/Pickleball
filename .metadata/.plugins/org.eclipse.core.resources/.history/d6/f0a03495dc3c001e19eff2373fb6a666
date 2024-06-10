@@ -1,0 +1,82 @@
+package BT_PE.Tests;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+
+import BT_PE.Pages.LoginPage;
+import BT_PE.TestComponents.BT_PEBaseTest;
+
+public class LoginPageTest extends BT_PEBaseTest {
+	
+	//public void loginTest(HashMap<String, String> input)
+	//public void loginTest(HashMap<String, String> input)
+	@Test(dataProvider = "getData")
+	public void loginTest(String uname, String pwd){
+		
+		LoginPage loginPage=new LoginPage(driver);
+		loginPage.goTo();
+		//Assert.assertTrue(loginPage.verifyLogoOnLoginPage());
+		String txt=loginPage.verifyWelcomeTextOnLoginPage();
+		Assert.assertEquals("Welcome Back",txt);
+		
+		loginPage.login(uname, pwd);
+		//loginPage.login(input.get("Username"), input.get("Password"));
+		Assert.assertTrue(loginPage.verifyForgotPwdBtnOnLoginPage());
+		Assert.assertTrue(loginPage.verifyCreateAcBtnOnLoginPage());
+		
+	}
+	
+	 //Type 1
+	  
+	 @DataProvider 
+	 public Object[][] getData() 
+	  { return new Object[][] {{"neha@yopmail.com","qwer1234"}};
+	  
+	  }
+	 
+	
+	/*
+	//Type 2
+	//Another way is to use HashMap as below. useful when more no of inputs
+	@DataProvider
+	public Object[][] getData() {
+		
+		HashMap<String, String> map=new HashMap<String, String>();
+		map.put("Username","abc");
+		map.put("Password","xyz");
+				
+		HashMap<String, String> map1=new HashMap<String, String>();
+		map1.put("Username","abc@123");
+		map1.put("Password","xyz@123");
+		return new Object[][] {{map},{map1}};
+	}
+	*/
+
+	/*			
+	//TYpe 3
+	  //third way is to pass inputs from a json file
+	  
+	  @DataProvider 
+	  public Object[][] getData() throws IOException {
+	  
+	  List<HashMap<String, String>> data=getJsonDataToMap(System.getProperty("user.dir")+"\\src\\test\\java\\BTPrototype\\Data\\LoginPage.json"); 
+	  //generic code to read complete from json file
+	  Object[][] testData = new Object[data.size()][1];
+      for (int i = 0; i < data.size(); i++) {
+          testData[i][0] = data.get(i);
+      }
+	  return testData;
+      //return new Object[][] {{data.get(0)},{data.get(1)},{data.get(2)},{data.get(3)},{data.get(4)}};
+	
+	 }
+	 */
+}
+	 
+
+

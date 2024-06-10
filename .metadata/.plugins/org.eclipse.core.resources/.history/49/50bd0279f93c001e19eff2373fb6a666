@@ -1,0 +1,13 @@
+browser=chrome
+
+correct.email=neha@yopmail.com
+correct.password=qwer1234
+
+incorrect.email=neha1@yopmail.com
+
+verify.reset.link.txt=Password reset link has been sent to your email id
+no.user.found=No user found 
+
+old.pwd=qwer1234
+new.pwd=qwer12345
+confirm.correct.new.pwd=qwer12345

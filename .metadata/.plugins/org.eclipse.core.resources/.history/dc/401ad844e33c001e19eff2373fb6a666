@@ -1,0 +1,54 @@
+package BT_PE.Tests;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import BT_PE.Pages.ForgotPasswordPage;
+import BT_PE.Pages.LoginPage;
+import BT_PE.TestComponents.BT_PEBaseTest;
+
+public class ForgotPasswordPageTest extends BT_PEBaseTest{
+	
+	LoginPage loginPage;
+	ForgotPasswordPage forgotPwdPage;
+	
+	@Test(priority=1)
+	public void verifySendEmailWithCorrectEmail() throws InterruptedException{
+	
+		loginPage=new LoginPage(driver);
+		loginPage.goTo();		
+		forgotPwdPage=new ForgotPasswordPage(driver);
+		forgotPwdPage.goToForgotPwdPage();
+				
+		//Assert.assertTrue(forgotPwdPage.verifyLogoOnForgotPwdPage());	
+		//System.out.println("Logo display status: "+forgotPwdPage.verifyLogoOnForgotPwdPage());
+		Assert.assertEquals("Forgot Password",forgotPwdPage.verifyHeaderOnForgotPwdPage());
+		System.out.println("Page Header Text: "+forgotPwdPage.verifyHeaderOnForgotPwdPage());
+		
+		forgotPwdPage.enterEmail(prop.getProperty("correct.email"));
+		forgotPwdPage.clickSendEmailBtn();
+		Assert.assertEquals(forgotPwdPage.verifyResetpwdLinkSentTxt, prop.getProperty(verify.reset.link.txt));
+		
+	}
+	
+	//@Test(priority=2)
+	/*
+	public void verifySendEmailWithInCorrectEmail() throws InterruptedException {
+		loginPage=new LoginPage(driver);
+		landingPage.goToLoginPage();
+		loginPage.clickOnForgotPwdButton();
+		
+		forgotPwdPage=new ForgotPasswordPage(driver);
+				
+		Assert.assertTrue(forgotPwdPage.verifyLogoOnForgotPwdPage());		
+		Assert.assertEquals("Forgot Password",forgotPwdPage.verifyHeaderOnForgotPwdPage());
+		
+		forgotPwdPage.forgotPwd(prop.getProperty("incorrect.email"));
+		Assert.assertEquals(forgotPwdPage.getErrorMessageText(),prop.getProperty("user.not.found"));
+		
+		System.out.println(forgotPwdPage.getErrorMessageText());	
+		
+	}
+	*/
+}
+	
+	

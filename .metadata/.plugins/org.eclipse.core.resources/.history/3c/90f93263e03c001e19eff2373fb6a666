@@ -1,0 +1,26 @@
+package BT_PE.Tests;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import BT_PE.Pages.SignUpPage;
+import BT_PE.TestComponents.BT_PEBaseTest;
+
+public class SignUpPageTest extends BT_PEBaseTest {
+
+	@Test
+	public void signUpTest() throws InterruptedException {
+		SignUpPage signUpPage=new SignUpPage(driver);
+		signUpPage.goToSignUpPage();
+		signUpPage.verifyHeaderOnSignUpPage();
+		signUpPage.SignUp();
+		System.out.println(signUpPage.verifyTournamentHeader());
+		
+		/*
+		 * Assert.assertTrue(signUpPage.verifyLogoOnsignUpPage()); String
+		 * txt=signUpPage.verifyHeaderOnSignUpPage();
+		 * Assert.assertEquals("Sign Up",txt); String
+		 * signUpStatusMsg=signUpPage.SignUp(); System.out.println(signUpStatusMsg);
+		 */
+	}
+}

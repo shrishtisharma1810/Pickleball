@@ -1,0 +1,176 @@
+package BT_PE.Pages;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.Random;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import BT_PE.BaseComponents.PEBaseComponents;
+
+public class SignUpPage extends PEBaseComponents {
+	WebDriver driver;
+	public SignUpPage(WebDriver driver) {
+		super(driver);
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//*[text()='Create an account']")
+	WebElement createAccountBtn;
+	
+	@FindBy(xpath = "//h6[text()='Sign Up']")
+	private WebElement signUpPageHeader;
+	
+	@FindBy(css = "#firstName")
+	private WebElement firstName;
+
+	@FindBy(css = "#lastName")
+	private WebElement lastName;
+
+	@FindBy(css = "#email")
+	private WebElement email;
+
+	@FindBy(css = "[type=\"tel\"]")
+	private WebElement phoneNumber;
+
+	@FindBy(css = ".MuiSelect-select") //gender dropdown
+	private WebElement dropdownbox;
+
+	@FindBy(css = "[data-value=\"MALE\"]")
+	private WebElement genderSelect;
+
+	@FindBy(xpath = "//button[@aria-label='Choose date']")
+	private WebElement calendarIcon;
+	
+	@FindBy(xpath = "//*[@name='location']")
+	private WebElement addressBox;
+	
+	@FindBy(css=".MuiListItemText-root")
+	private WebElement locationList;
+		
+
+	@FindBy(xpath = "//button[@aria-label='calendar view is open, switch to year view']")
+	private WebElement yearDropdownBtn;
+
+	@FindBy(css = ".MuiPickersYear-yearButton")
+	private List<WebElement> years;
+
+	@FindBy(css = ".MuiPickersCalendarHeader-label ")
+	private WebElement month;
+
+	@FindBy(xpath = "//button[@aria-label='Next month']")
+	private WebElement rightArrowBtn; 
+	
+	@FindBy(xpath = "//button[@aria-label='Previous month']")
+	private WebElement leftArrowBtn; 
+	
+	@FindBy(css = "button.MuiPickersDay-root ")
+	private List<WebElement> days;
+
+	@FindBy(id = ":r9:")
+	private WebElement date;
+
+	@FindBy(id = "password")
+	private WebElement pwd;
+
+	@FindBy(id = "confirmPassword")
+	private WebElement confirmPwd;
+
+	@FindBy(xpath = "//*[@id='confirmPassword']/parent::div/child::div//button")
+	private WebElement confirmPwdEyeIcon;
+
+	@FindBy(css = "[type=\"checkbox\"]")
+	private WebElement termsChkbx;
+
+	@FindBy(css = "[type=\"submit\"]")
+	private WebElement signUpBtn;
+
+	@FindBy(xpath = "(//div[@class='MuiAlert-message css-1pxa9xg-MuiAlert-message'])")
+	private WebElement signUpStatusMsgFromSnackbar;
+
+	//This method is used to goTo SignUp page
+	public void goToSignUpPage() {
+		createAccountBtn.click();
+		waitForWebElementToAppear(signUpPageHeader);
+	}
+	
+	public String verifyHeaderOnSignUpPage() {
+		return signUpPageHeader.getText();
+	}
+	public void SignUp() throws InterruptedException {
+		/*
+		 * Random rand = new Random(); String randomFirstName =
+		 * FIRST_NAMES[rand.nextInt(FIRST_NAMES.length)]; String randomLastName =
+		 * LAST_NAMES[rand.nextInt(LAST_NAMES.length)]; String randomEmail =
+		 * generateRandomEmail();
+		 */
+
+        firstName.sendKeys("Shrishti");
+        lastName.sendKeys("Sharma");
+        email.sendKeys("shrishti@yopmail.com");
+        phoneNumber.sendKeys("9999999999");
+		dropdownbox.click();
+		genderSelect.click();
+		calendarIcon.click();
+		selectYear("2000");
+		selectDay("18");
+		//Thread.sleep(2000);
+		addressBox.sendKeys("nashik");
+		//waitForWebElementToAppear(locationList);
+		//for (WebElement addressOption : locationList) {
+			//String address = addressOption.getText();
+			//if (address.equalsIgnoreCase("Nasik, Maharashtra, India")) {
+				//addressOption.click();
+				driver.findElement(By.cssSelector(".MuiListItemText-root ")).click();
+				System.out.println("The selected address is: " + addressBox.getAttribute("value"));
+				//break;
+			
+		//}
+
+		pwd.sendKeys("qwer1234");
+		confirmPwd.sendKeys("qwer1234");
+		termsChkbx.click();		
+		//signUpBtn.click();		
+	}	
+	private void selectYear(String yearValue) {
+		yearDropdownBtn.click();
+		for (WebElement yearOption : years) {
+			String yearText = yearOption.getText();
+			if (yearText.equalsIgnoreCase(yearValue)) {
+				yearOption.click();
+				System.out.println("The selected year is: " + yearText);
+				break;
+			}
+		}
+	}
+
+	private void selectDay(String dayValue) throws InterruptedException {
+		scrollPage(500);
+		Thread.sleep(3000);
+		 while(!(driver.findElement(By.cssSelector(".MuiPickersCalendarHeader-label")).getText().contains("October"))) 
+		 { 
+			  rightArrowBtn.click(); 
+		 }
+		 
+		
+			for (WebElement dayOption : days) {
+				String dayText = dayOption.getText();
+				if (dayText.equalsIgnoreCase(dayValue)) {
+					dayOption.click();
+					System.out.println("The selected day is: " + dayText);
+					break;
+				}
+				
+			}
+			
+		}
+		
+}
+

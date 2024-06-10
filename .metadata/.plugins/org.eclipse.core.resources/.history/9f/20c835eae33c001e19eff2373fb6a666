@@ -1,0 +1,150 @@
+package BT_PE.Pages;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+
+import BT_PE.BaseComponents.PEBaseComponents;
+
+public class ForgotPasswordPage extends PEBaseComponents {
+
+	private WebDriver driver;
+	//constructor
+	public ForgotPasswordPage(WebDriver driver) {
+		super(driver);
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//*[text()='Forgot Password?']")
+	private WebElement forgotPwdLink;	
+	
+	@FindBy(xpath="//*[text()='Forgot Password']")
+	private WebElement forgotPwdPageHeader;
+	
+	@FindBy(css="#username")
+	WebElement username;
+	
+	@FindBy(css="[type=\"submit\"]")
+	private WebElement sendEmailBtn;
+	
+	@FindBy(xpath="//p[contains(text(), 'Password reset link has been sent to your email id')]")
+	private WebElement resetpwdLinkSentTxt;
+	
+	@FindBy(xpath="//p[contains(text(), 'No user found for neha1@yopmail.com')]")
+	private WebElement userNotFoundtxt;
+	
+	/*
+	
+	@FindBy(css="[aria-label*='OTP']:nth-of-type(1)")
+	private WebElement OtpCharOne;
+	
+	@FindBy(css="[aria-label*='OTP']:nth-of-type(2)")
+	private WebElement OtpCharTwo;
+	
+	@FindBy(css="[aria-label*='OTP']:nth-of-type(3)")
+	private WebElement OtpCharThree;
+	
+	@FindBy(css="[aria-label*='OTP']:nth-of-type(4)")
+	private WebElement OtpCharFour;
+		
+	@FindBy(css="[id='password']")
+	private WebElement password;
+	
+	@FindBy(css="[id='confirmPassword']")
+	private WebElement confirmPassword;
+		
+	@FindBy(xpath="(//div[@class='MuiAlert-message css-1pxa9xg-MuiAlert-message'])")
+	private WebElement sendResetPwdStatusMsgFromSnackbar;
+	
+	@FindBy(xpath="//p[text()='Verification Code is required.']")
+	private WebElement otpRequiredTxt;
+	
+	@FindBy(id="password-helper-text")
+	private WebElement pwdRequiredTxt;
+	
+	@FindBy(id="confirmPassword-helper-text")
+	private WebElement confirmPwdRequiredTxt;	
+	*/
+		
+	//This method is used to goTo forgot pwd page
+	public void goToForgotPwdPage() {
+		forgotPwdLink.click();;
+		waitForWebElementToAppear(forgotPwdPageHeader);
+	}
+			
+	public String verifyHeaderOnForgotPwdPage() {
+		waitForWebElementToAppear(forgotPwdPageHeader);
+		return forgotPwdPageHeader.getText();
+	}
+	
+	public void enterEmail(String email) {
+		username.sendKeys(email);
+		
+	}
+	public void clickSendEmailBtn() {
+		sendEmailBtn.click();
+	}
+	
+	public String verifyResetPwdLinkSentTxt() {
+		return resetpwdLinkSentTxt.getText();
+	}
+	
+	public String verifyUserNotFoundtxt() {
+		return userNotFoundtxt.getText();
+	}
+	/*
+	public void enterOTP() {
+		OtpCharOne.sendKeys("1");
+		OtpCharTwo.sendKeys("2");
+		OtpCharThree.sendKeys("3");
+		OtpCharFour.sendKeys("4");
+	}
+	
+	
+	public void enterPwd(String pwd) {
+		password.sendKeys(pwd);
+	}
+	
+	public void enterConfirmPwd(String pwd) {
+		confirmPassword.sendKeys(pwd);
+	}
+	
+	public void clickOnResetPwdButton() {
+		resetPwdBtn.click();			
+	}
+	
+	public void reset(String pwd, String confirmPwd) {
+		enterOTP();
+		scrollPage(500);
+		enterPwd(pwd);
+		enterConfirmPwd(confirmPwd);
+		clickOnResetPwdButton();
+		scrollPage(700);
+		waitForWebElementToAppear(sendResetPwdStatusMsgFromSnackbar);
+	}	
+	
+	public String getErrorMessageText() {
+		waitForWebElementToAppear(sendResetPwdStatusMsgFromSnackbar);
+		return sendResetPwdStatusMsgFromSnackbar.getText();
+	}
+	
+	public String getOtpRequiredMessageText() {
+		return otpRequiredTxt.getText();
+	}
+	
+	public String getPwdRequiredMessageText() {
+		return pwdRequiredTxt.getText();
+	}
+
+	public String getConfirmPwdRequiredMessageText() {
+		return confirmPwdRequiredTxt.getText();
+	}
+	*/
+}
+
+

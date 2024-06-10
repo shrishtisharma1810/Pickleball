@@ -1,0 +1,80 @@
+package BT_PE.Pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+import BT_PE.BaseComponents.PEBaseComponents;
+import dev.failsafe.internal.util.Assert;
+
+public class LoginPage extends PEBaseComponents {
+
+	WebDriver driver;
+	public LoginPage(WebDriver driver) {
+		super(driver);
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+
+	/*
+	 * @FindBy(xpath = "//img") WebElement logo;
+	 */
+	
+	@FindBy(xpath="//h6")
+	WebElement welcometxt;
+	
+	@FindBy(css="#username")
+	WebElement username;
+	
+	@FindBy(css="#password")
+	WebElement password;
+	
+	@FindBy(css="[type='submit']")
+	WebElement loginBtn;
+	
+	@FindBy(xpath="//*[text()='Forgot Password?']")
+	WebElement forgotPwdBtn;
+	
+	@FindBy(xpath="//*[text()='Create an account']")
+	WebElement createAccountBtn;
+	
+	@FindBy(css=".MuiButton-outlinedPrimary")
+	WebElement cancelBtnOnVerifyPopUp;
+	
+	//This method is used to goTo login page
+	public void goTo() {
+		driver.get("https://dev.myracketsport.com/");
+	}
+		
+	/*
+	 * public boolean verifyLogoOnLoginPage() { boolean flag=logo.isDisplayed();
+	 * return flag; }
+	 */
+	
+	public String verifyWelcomeTextOnLoginPage() {
+		String txt=welcometxt.getText();
+		return txt;
+	}
+	
+	public boolean verifyForgotPwdBtnOnLoginPage() {
+		boolean flag=forgotPwdBtn.isDisplayed();
+		return flag;
+	}
+	
+	public boolean verifyCreateAcBtnOnLoginPage() {
+		boolean flag=createAccountBtn.isDisplayed();
+		return flag;
+	}
+	
+	public void login(String uname, String pwd) {
+		username.sendKeys(uname);
+		password.sendKeys(pwd);
+		loginBtn.click();
+		waitForWebElementToAppear(cancelBtnOnVerifyPopUp);
+		cancelBtnOnVerifyPopUp.click();
+		
+	}
+
+}

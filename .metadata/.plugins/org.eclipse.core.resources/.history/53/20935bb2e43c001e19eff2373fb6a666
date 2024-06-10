@@ -1,0 +1,73 @@
+package BT_PE.Pages;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+
+import BT_PE.BaseComponents.PEBaseComponents;
+
+public class ForgotPasswordPage extends PEBaseComponents {
+
+	private WebDriver driver;
+	//constructor
+	public ForgotPasswordPage(WebDriver driver) {
+		super(driver);
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//*[text()='Forgot Password?']")
+	private WebElement forgotPwdLink;	
+	
+	@FindBy(xpath="//*[text()='Forgot Password']")
+	private WebElement forgotPwdPageHeader;
+	
+	@FindBy(css="#username")
+	WebElement username;
+	
+	@FindBy(css="[type=\"submit\"]")
+	private WebElement sendEmailBtn;
+	
+	@FindBy(xpath="//p[contains(text(), 'Password reset link has been sent to your email id')]")
+	private WebElement resetpwdLinkSentTxt;
+	
+	@FindBy(xpath="//p[contains(text(), 'No user found for neha1@yopmail.com')]")
+	private WebElement userNotFoundtxt;
+	
+	
+		
+	//This method is used to goTo forgot pwd page
+	public void goToForgotPwdPage() {
+		forgotPwdLink.click();;
+		waitForWebElementToAppear(forgotPwdPageHeader);
+	}
+			
+	public String verifyHeaderOnForgotPwdPage() {
+		waitForWebElementToAppear(forgotPwdPageHeader);
+		return forgotPwdPageHeader.getText();
+	}
+	
+	public void enterEmail(String email) {
+		username.sendKeys(email);
+		
+	}
+	public void clickSendEmailBtn() {
+		sendEmailBtn.click();
+	}
+	
+	public String verifyResetPwdLinkSentTxt() {
+		return resetpwdLinkSentTxt.getText();
+	}
+	
+	public String verifyUserNotFoundtxt() {
+		return userNotFoundtxt.getText();
+	}
+	
+	
+}
+
+

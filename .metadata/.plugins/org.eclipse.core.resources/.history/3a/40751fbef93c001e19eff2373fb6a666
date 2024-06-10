@@ -1,0 +1,176 @@
+package BT_PE.Tests;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import BT_PE.Pages.EditProfilePage;
+import BT_PE.Pages.LoginPage;
+import BT_PE.TestComponents.BT_PEBaseTest;
+
+
+public class EditProfilePageTest extends BT_PEBaseTest {
+	LoginPage loginPage;
+	EditProfilePage editProfilePage;
+	
+	/*
+	 * @BeforeMethod public void setUp() { loginPage = new LoginPage(driver);
+	 * landingPage.goToLoginPage(); editProfilePage = new EditProfilePage(driver); }
+	 */
+
+	@BeforeMethod
+	
+	public void login() throws InterruptedException {
+		loginPage = new LoginPage(driver);
+		loginPage.goTo();
+		loginPage.login(prop.getProperty("correct.email"),prop.getProperty("correct.password"));
+		editProfilePage = new EditProfilePage(driver);
+		editProfilePage.goToEditProfilePage();
+		/*
+		String loginStatusMsg = loginPage.login(prop.getProperty("correct.email"),prop.getProperty("correct.password"));
+		if (loginStatusMsg.equalsIgnoreCase(prop.getProperty("login.success"))) {
+			landingPage.goToEditProfilePage();
+			editProfilePage = new EditProfilePage(driver);
+		}
+		*/
+	}
+	
+
+	@Test(priority = 1)
+	public void verifyEditProfilePageDetails() throws InterruptedException {
+
+		String tab = editProfilePage.getSelectedTab();
+		System.out.println(tab);
+		if (tab.equalsIgnoreCase("PROFILE")) {
+			System.out.println("PROFILE tab is selected");
+
+			String headertxt = editProfilePage.verifyHeadertxt();
+			System.out.println("User Name in Header: " + headertxt);
+			Assert.assertTrue(headertxt.contains(editProfilePage.getFirstName()));
+			Assert.assertTrue(headertxt.contains(editProfilePage.getLastName()));
+			
+			String headerEmail = editProfilePage.getheaderEmail();
+			System.out.println("Email in Header: " + headerEmail);
+			Assert.assertTrue(headerEmail.equals(editProfilePage.getEmail()));
+
+			String headerPhNo = editProfilePage.getheaderPhNo();
+			System.out.println("PhNo in Header: " + headerPhNo);
+			System.out.println("PhNo from field: " + editProfilePage.getPhNo());
+			
+			Assert.assertTrue(headerPhNo.split("1")[1].equals(editProfilePage.getPhNo()));			
+		
+			String gender = editProfilePage.getGender();
+			System.out.println("Gender: " + gender);
+			String dob = editProfilePage.getDob();
+			System.out.println("Date of Birth: " + dob);
+		} else {
+			System.out.println("SECURITY tab is selected");
+		}
+
+	}
+
+	//@Test(priority = 2)
+	public void changePassword() {
+		editProfilePage.clickOnSecurityTab();
+		System.out.println("SECURITY tab is selected");
+		editProfilePage.changePwd(prop.getProperty("old.pwd"), prop.getProperty("new.pwd"),
+				prop.getProperty("confirm.correct.new.pwd"));
+		editProfilePage.clickSaveChangesBtn();
+		//Assert.assertEquals(editProfilePage.getAlertMsgTxt(), prop.getProperty("success.update"));
+		//System.out.println(editProfilePage.getAlertMsgTxt());
+	}
+
+	@Test(priority = 3)
+	public void editFirstName() throws InterruptedException {
+		editProfilePage.editFirstName("Shrishti");
+		editProfilePage.clickSaveChangesBtn();
+		String msg = editProfilePage.getAlertMsgTxt();
+		Assert.assertEquals(msg, prop.getProperty("profile.updation.success"));
+		System.out.println(msg);
+	}
+
+	//@Test(priority = 4)
+	public void editLastName() throws InterruptedException {
+		editProfilePage.editLastName("Sharma");
+		editProfilePage.clickSaveChangesBtn();
+		String msg = editProfilePage.getAlertMsgTxt();
+		Assert.assertEquals(msg, prop.getProperty("profile.updation.success"));
+		System.out.println(msg);
+	}
+
+	//@Test(priority = 5)
+	public void editGender() throws InterruptedException {
+		Thread.sleep(2000);
+		editProfilePage.editGenderFemale();
+		editProfilePage.clickSaveChangesBtn();
+		String msg = editProfilePage.getAlertMsgTxt();
+		Assert.assertEquals(msg, prop.getProperty("profile.updation.success"));
+		System.out.println(msg);
+	}
+
+	//@Test(priority = 6)
+	public void editAll() throws InterruptedException {
+		editProfilePage.editFirstName("Neha");
+		editProfilePage.editLastName("S");
+		editProfilePage.editGenderMale();
+		editProfilePage.clickSaveChangesBtn();
+		Thread.sleep(2000);
+		String msg = editProfilePage.getAlertMsgTxt();
+		Assert.assertEquals(msg, prop.getProperty("profile.updation.success"));
+		System.out.println(msg);
+	}
+
+	//(priority = 7)
+	public void clearAll() throws InterruptedException {
+		editProfilePage.clear();
+		editProfilePage.clickSaveChangesBtn();
+		Thread.sleep(1000);
+		String fNameErrMsg = editProfilePage.getFnameErrMsg();
+		String lNameErrMsg = editProfilePage.getLnameErrMsg();
+		String phNoErrMsg = editProfilePage.getPhNoErrMsg();
+		String dobErrMsg = editProfilePage.getDobErrMsg();
+		Assert.assertEquals(fNameErrMsg, prop.getProperty("first.name.required"));
+		System.out.println(fNameErrMsg);
+		Assert.assertEquals(lNameErrMsg, prop.getProperty("last.name.required"));
+		System.out.println(lNameErrMsg);
+		Assert.assertEquals(phNoErrMsg, prop.getProperty("ph.no.required"));
+		System.out.println(phNoErrMsg);
+		Assert.assertEquals(dobErrMsg, prop.getProperty("dob.required"));
+		System.out.println(dobErrMsg);
+	}
+
+	//@Test(priority = 8)
+	public void verifySecurityTabWithEmptyFields() {
+		editProfilePage.clickOnSecurityTab();
+		editProfilePage.clickSaveChangesBtn();
+		String oldPwdErrMsg = editProfilePage.getOldPwdErrMsg();
+		Assert.assertEquals(oldPwdErrMsg, prop.getProperty("password.required.validation"));
+		String newPwdErrMsg = editProfilePage.getNewPwdErrMsg();
+		Assert.assertEquals(newPwdErrMsg, prop.getProperty("password.required.validation"));
+		String confirmPwdErrMsg = editProfilePage.getConfirmPwdErrMsg();
+		Assert.assertEquals(confirmPwdErrMsg, prop.getProperty("password.required.validation"));
+	}
+
+	//@Test(priority = 9)
+	public void verifySecurityTabWithSameValues() {
+		editProfilePage.clickOnSecurityTab();
+		System.out.println("SECURITY tab is selected");
+		editProfilePage.changePwd(prop.getProperty("old.pwd"), prop.getProperty("old.pwd"),
+				prop.getProperty("old.pwd"));
+		editProfilePage.clickSaveChangesBtn();
+		Assert.assertEquals(editProfilePage.getAlertMsgTxt(), prop.getProperty("invalid.parameters"));
+		System.out.println(editProfilePage.getAlertMsgTxt());
+	}
+
+	//@Test(priority = 10)
+	public void verifySecurityTabWithMismatchValues() {
+		editProfilePage.clickOnSecurityTab();
+		System.out.println("SECURITY tab is selected");
+		editProfilePage.changePwd(prop.getProperty("old.pwd"), prop.getProperty("new.pwd"),
+				prop.getProperty("incorrect.password"));
+		editProfilePage.clickSaveChangesBtn();
+		String msg = editProfilePage.getConfirmPwdErrMsg();
+		Assert.assertEquals(msg, prop.getProperty("pwd.not.match"));
+		System.out.println(msg);
+	}
+}

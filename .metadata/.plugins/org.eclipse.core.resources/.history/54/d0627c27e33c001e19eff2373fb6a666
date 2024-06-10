@@ -1,0 +1,6 @@
+browser=chrome
+
+correct.email=neha@yopmail.com
+correct.password=qwer1234
+
+incorrect.email=neha1@yopmail.com

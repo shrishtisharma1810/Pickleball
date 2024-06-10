@@ -1,0 +1,245 @@
+package BT_PE.Pages;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+import BT_PE.BaseComponents.PEBaseComponents;
+
+public class EditProfilePage extends PEBaseComponents {
+	WebDriver driver;
+	//constructor
+	public EditProfilePage(WebDriver driver) {
+		super(driver);
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//*[@role=\"tablist\"]/button[1]")
+	private WebElement profileTab;
+	
+	@FindBy(xpath="//*[@role=\"tablist\"]/button[2]")
+	private WebElement securityTab;	
+	
+	@FindBy(xpath="//div[text()='My Profile']")
+	private WebElement myProfileBtn;
+	
+	@FindBy(xpath="//h3")
+	private WebElement headerTxt;	
+	
+	@FindBy(id="firstName")
+	private WebElement firstName;
+	
+	@FindBy(id="lastName")
+	private WebElement lastName;	
+
+	@FindBy(xpath="//p[.='shrishti@yopmail.com']")
+	private WebElement headerEmail;
+	
+	@FindBy(xpath="//p[.='+919595033809']")
+	private WebElement headerPhNo;
+	
+	@FindBy(css="[placeholder='Enter Email']")
+	private WebElement email;
+	
+	@FindBy(css="[type='tel']")
+	private WebElement phNo;	
+	
+	@FindBy(xpath="//div[@role='button']")
+	private WebElement gender;
+	
+	@FindBy(xpath="//*[@placeholder='MM/DD/YYYY']")
+	private WebElement dob;
+	
+	
+	
+	
+	@FindBy(xpath="//*[@type='submit']")
+	private WebElement saveChangesBtn;
+	
+	@FindBy(css=".MuiAlert-message")
+	private WebElement alertMsg;
+	
+	@FindBy(xpath="//*[@data-value='MALE']")
+	private WebElement genderOptionMale;
+	
+	@FindBy(xpath="//*[@data-value='FEMALE']")
+	private WebElement genderOptionFemale;
+	
+	@FindBy(xpath="//p[text()='First name is required.']")
+	private WebElement firstNameErrMsg;
+	
+	@FindBy(xpath="//p[text()='Last name is required.']")
+	private WebElement lastNameErrMsg;
+	
+	@FindBy(xpath="//p[text()='Phone Number is required.']")
+	private WebElement phNoErrMsg;
+	
+	@FindBy(xpath="//p[text()='Birth Date is required.']")
+	private WebElement dobErrMsg;
+	
+	@FindBy(id="oldPassword")
+	private WebElement oldPwd;
+	
+	@FindBy(id="newPassword")
+	private WebElement newPwd;
+	
+	@FindBy(id="confirmPassword")
+	private WebElement confirmPwd;
+	
+	@FindBy(id="oldPassword-helper-text")
+	private WebElement oldPwdErrMsg;
+	
+	@FindBy(id="newPassword-helper-text")
+	private WebElement newPwdErrMsg;
+	
+	@FindBy(id="confirmPassword-helper-text")
+	private WebElement confirmPwdErrMsg;
+	
+	public String getSelectedTab() {
+		String profileTabSelectedStatus=profileTab.getAttribute("aria-selected");
+		if(profileTabSelectedStatus.equalsIgnoreCase("true")) {
+			return profileTab.getText();
+		}
+		else
+			return securityTab.getText();
+	}
+	public void goToEditProfilePage() {
+		myProfileBtn.click();
+	}
+	
+	public String verifyHeadertxt() {
+		return headerTxt.getText();
+	}
+	
+	public String getFirstName() {
+		return firstName.getText();
+	}
+	
+	public String getLastName() {
+		return lastName.getText();
+	}
+	
+	public String getheaderEmail() {
+		return headerEmail.getText();
+	}
+	
+	public String getheaderPhNo() {
+		return headerPhNo.getText();
+	}
+	
+	public String getEmail() {
+		return email.getAttribute("value");
+	}
+	
+	public String getPhNo() {
+		return phNo.getAttribute("value");
+	}
+	
+	public String getGender() {
+		return gender.getText();
+	}
+	
+	public String getDob() {
+		return dob.getAttribute("value");
+	}
+	
+	public void clickOnSecurityTab() {
+		securityTab.click();
+	}
+	
+	
+	
+	public String getFnameErrMsg() {
+		return firstNameErrMsg.getText();
+	}
+	
+	public String getLnameErrMsg() {
+		return lastNameErrMsg.getText();
+	}
+	
+	public String getPhNoErrMsg() {
+		return phNoErrMsg.getText();
+	}
+	
+	public String getDobErrMsg() {
+		return dobErrMsg.getText();
+	}
+	
+	public void clickOnProfileTab() {
+		profileTab.click();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void editFirstName(String name) throws InterruptedException {
+		firstName.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		firstName.sendKeys(Keys.BACK_SPACE); // Delete selected text
+		firstName.sendKeys(name);
+	}
+	public void editLastName(String name) throws InterruptedException {
+		lastName.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		lastName.sendKeys(Keys.BACK_SPACE); // Delete selected text
+		lastName.sendKeys(name);		
+	}
+	public void editGenderMale() throws InterruptedException {
+		gender.click(); 
+		genderOptionMale.click();
+		scrollPage(800);
+		Thread.sleep(1000);
+	}
+	public void editGenderFemale() throws InterruptedException {
+		gender.click(); 
+		genderOptionFemale.click();
+		scrollPage(800);
+		Thread.sleep(1000);
+	}
+	public void clickSaveChangesBtn() {
+		scrollPage(800);
+		saveChangesBtn.click();
+		//waitForWebElementToAppear(alertMsg);
+	}
+	public String getAlertMsgTxt() {
+		waitForWebElementToAppear(alertMsg);
+		return alertMsg.getText();
+	}
+	public void clear() {
+		firstName.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		firstName.sendKeys(Keys.BACK_SPACE); // Delete selected text
+		lastName.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		lastName.sendKeys(Keys.BACK_SPACE); // Delete selected text
+		phNo.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		phNo.sendKeys(Keys.BACK_SPACE); // Delete selected text
+		dob.sendKeys(Keys.chord(Keys.CONTROL, "a")); // Select all text
+		dob.sendKeys(Keys.BACK_SPACE); // Delete selected text
+	}
+	public void changePwd(String oldPasswd, String newPasswd, String confirmPasswd) {
+		oldPwd.sendKeys(oldPasswd);
+		newPwd.sendKeys(newPasswd);
+		confirmPwd.sendKeys(confirmPasswd);
+		//saveChangesBtn.click();
+		scrollPage(500);
+		//waitForWebElementToAppear(alertMsg);
+		//return alertMsg.getText();
+		
+	}
+	public String getOldPwdErrMsg() {
+		return oldPwdErrMsg.getText();
+	}
+	public String getNewPwdErrMsg() {
+		return newPwdErrMsg.getText();
+	}
+	public String getConfirmPwdErrMsg() {
+		return confirmPwdErrMsg.getText();
+	}
+	
+}
